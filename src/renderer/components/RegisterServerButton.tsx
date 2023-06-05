@@ -36,12 +36,12 @@ export default function RegisterServerButton() {
           <ModalCloseButton />
           <ModalBody>
             <FormControl mb={8}>
-              <FormLabel>Nome do servidor</FormLabel>
-              <Input placeholder="Nome do servidor" />
+              <FormLabel>Nome</FormLabel>
+              <Input placeholder="Digite um nome para o servidor" />
             </FormControl>
             <FormControl>
-              <FormLabel>Endereço do servidor</FormLabel>
-              <Input placeholder="Endereço do servidor" />
+              <FormLabel>URL</FormLabel>
+              <Input placeholder="Digite a url" />
             </FormControl>
           </ModalBody>
           <ModalFooter>
