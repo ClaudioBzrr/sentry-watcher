@@ -33,7 +33,10 @@ export default function Home() {
     localStorage.setItem('server_data', JSON.stringify([...server, data]));
   }
 
-  useEffect(() => loadSavedServers());
+  useEffect(() => {
+    loadSavedServers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Flex justify="center" minH="100vh">
@@ -41,10 +44,12 @@ export default function Home() {
         <Box w="100vw" position="fixed" top={0} p={8}>
           <Stack align="center" justify="center" direction="row">
             <SearchBar />
-            <RegisterServerButton />
+            <RegisterServerButton onCreate={(e) => handleAddServer(e)} />
           </Stack>
         </Box>
-        <ServerList data={server} />
+        <Box w="80vw" overflowY="auto">
+          <ServerList data={server} />
+        </Box>
       </Stack>
     </Flex>
   );

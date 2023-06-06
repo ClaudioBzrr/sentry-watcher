@@ -7,9 +7,9 @@ interface IServerList {
 
 export default function ServerList({ data }: IServerList) {
   return (
-    <TableContainer maxW="90vh">
-      <Table overflowY="auto">
-        <Thead>
+    <TableContainer maxH="50vh" overflowY="auto">
+      <Table>
+        <Thead bg="none" position="sticky" top={0} zIndex="docked">
           <Tr fontWeight="bold">
             <Td>Nome do servidor</Td>
             <Td>Status</Td>

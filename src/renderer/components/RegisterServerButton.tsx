@@ -29,6 +29,12 @@ export default function RegisterServerButton({
   const modalAction = useDisclosure();
   const [name, setName] = useState<string>('');
   const [url, setUrl] = useState<string>('');
+
+  function createServer() {
+    onCreate({ name, url, status: 'ativo', simpleCheck: true });
+    modalAction.onClose();
+  }
+
   return (
     <>
       <Button
@@ -74,7 +80,7 @@ export default function RegisterServerButton({
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button mr={3} colorScheme="blue">
+            <Button onClick={() => createServer()} mr={3} colorScheme="blue">
               Salvar
             </Button>
             <Button onClick={modalAction.onClose} colorScheme="red">
