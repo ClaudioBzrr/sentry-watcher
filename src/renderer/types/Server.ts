@@ -3,6 +3,6 @@ export interface IServer {
   url: string;
   simpleCheck: boolean;
   status: string;
-  method: string;
-  route: string;
+  method?: string;
+  route?: string;
 }

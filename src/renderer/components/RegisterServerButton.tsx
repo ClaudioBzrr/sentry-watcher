@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import {
   Button,
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputLeftElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,9 +16,19 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { BsPlus } from 'react-icons/bs';
+import { BiServer, BiLink } from 'react-icons/bi';
+import { IServer } from 'renderer/types/Server';
 
-export default function RegisterServerButton() {
+interface IRegisterServerButton {
+  onCreate: (e: IServer) => void;
+}
+
+export default function RegisterServerButton({
+  onCreate,
+}: IRegisterServerButton) {
   const modalAction = useDisclosure();
+  const [name, setName] = useState<string>('');
+  const [url, setUrl] = useState<string>('');
   return (
     <>
       <Button
@@ -37,11 +50,27 @@ export default function RegisterServerButton() {
           <ModalBody>
             <FormControl mb={8}>
               <FormLabel>Nome</FormLabel>
-              <Input placeholder="Digite um nome para o servidor" />
+              <InputGroup>
+                <InputLeftElement>
+                  <BiServer size={20} />
+                </InputLeftElement>
+                <Input
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Digite um nome para o servidor"
+                />
+              </InputGroup>
             </FormControl>
             <FormControl>
               <FormLabel>URL</FormLabel>
-              <Input placeholder="Digite a url" />
+              <InputGroup>
+                <InputLeftElement>
+                  <BiLink size={20} />
+                </InputLeftElement>
+                <Input
+                  onChange={(e) => setUrl(e.target.value)}
+                  placeholder="Digite a url"
+                />
+              </InputGroup>
             </FormControl>
           </ModalBody>
           <ModalFooter>
