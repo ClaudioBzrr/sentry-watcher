@@ -24,13 +24,33 @@ export default function Home() {
         description: String(err),
         duration: 5000,
         position: 'top',
+        isClosable: true,
       });
     }
   }
 
   function handleAddServer(data: IServer) {
-    setServers([...server, data]);
-    localStorage.setItem('server_data', JSON.stringify([...server, data]));
+    try {
+      setServers([...server, data]);
+      localStorage.setItem('server_data', JSON.stringify([...server, data]));
+      toast({
+        title: 'Sucesso',
+        description: `Servidor ${data.name} criado com sucesso`,
+        status: 'success',
+        position: 'top',
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (err) {
+      toast({
+        title: 'Error',
+        description: String(err),
+        status: 'error',
+        position: 'top',
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   }
 
   useEffect(() => {
