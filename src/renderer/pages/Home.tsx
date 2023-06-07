@@ -70,16 +70,20 @@ export default function Home() {
     <Flex justify="center" minH="100vh">
       <Stack align="center" justify="center">
         <Box w="100vw" position="fixed" top={0} p={8}>
-          <Stack align="center" justify="center" direction="row">
-            <SearchBar />
-            <RegisterServerButton onCreate={(e) => handleAddServer(e)} />
+          <Stack direction="column" align="center" justify="center">
+            {/* <Box> */}
+            <Stack align="center" justify="center" direction="row">
+              <SearchBar />
+              <RegisterServerButton onCreate={(e) => handleAddServer(e)} />
+            </Stack>
+            <Stack mt={8} overflowY="auto">
+              <ServerList
+                onDeleteServer={(e) => handleDeleteServer(e)}
+                data={servers}
+              />
+            </Stack>
+            {/* </Box> */}
           </Stack>
-        </Box>
-        <Box w="80vw" overflowY="auto">
-          <ServerList
-            onDeleteServer={(e) => handleDeleteServer(e)}
-            data={servers}
-          />
         </Box>
       </Stack>
     </Flex>
