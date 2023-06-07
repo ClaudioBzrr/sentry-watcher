@@ -7,7 +7,12 @@ import { IServer } from 'renderer/types/Server';
 
 export default function Home() {
   const toast = useToast();
-  const [server, setServers] = useState<IServer[]>([]);
+  const [servers, setServers] = useState<IServer[]>([]);
+
+  function updateServerValue(value: IServer[]) {
+    setServers(value);
+    localStorage.setItem('server_data', JSON.stringify(value));
+  }
 
   function loadSavedServers() {
     try {
@@ -31,8 +36,7 @@ export default function Home() {
 
   function handleAddServer(data: IServer) {
     try {
-      setServers([...server, data]);
-      localStorage.setItem('server_data', JSON.stringify([...server, data]));
+      updateServerValue([...servers, data]);
       toast({
         title: 'Sucesso',
         description: `Servidor ${data.name} criado com sucesso`,
@@ -54,9 +58,7 @@ export default function Home() {
   }
 
   function handleDeleteServer(index: number) {
-    const updateServers = server.filter((e, i) => index !== i);
-    setServers(updateServers);
-    localStorage.setItem('server_data', JSON.stringify(updateServers));
+    updateServerValue(servers.filter((e, i) => index !== i));
   }
 
   useEffect(() => {
@@ -76,7 +78,7 @@ export default function Home() {
         <Box w="80vw" overflowY="auto">
           <ServerList
             onDeleteServer={(e) => handleDeleteServer(e)}
-            data={server}
+            data={servers}
           />
         </Box>
       </Stack>
