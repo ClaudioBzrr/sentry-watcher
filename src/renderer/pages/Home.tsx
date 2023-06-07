@@ -53,6 +53,12 @@ export default function Home() {
     }
   }
 
+  function handleDeleteServer(index: number) {
+    const updateServers = server.filter((e, i) => index !== i);
+    setServers(updateServers);
+    localStorage.setItem('server_data', JSON.stringify(updateServers));
+  }
+
   useEffect(() => {
     loadSavedServers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,7 +74,10 @@ export default function Home() {
           </Stack>
         </Box>
         <Box w="80vw" overflowY="auto">
-          <ServerList data={server} />
+          <ServerList
+            onDeleteServer={(e) => handleDeleteServer(e)}
+            data={server}
+          />
         </Box>
       </Stack>
     </Flex>
