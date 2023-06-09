@@ -71,7 +71,6 @@ export default function Home() {
       <Stack align="center" justify="center">
         <Box w="100vw" position="fixed" top={0} p={8}>
           <Stack direction="column" align="center" justify="center">
-            {/* <Box> */}
             <Stack align="center" justify="center" direction="row">
               <SearchBar />
               <RegisterServerButton onCreate={(e) => handleAddServer(e)} />
@@ -82,7 +81,6 @@ export default function Home() {
                 data={servers}
               />
             </Stack>
-            {/* </Box> */}
           </Stack>
         </Box>
       </Stack>

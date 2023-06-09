@@ -13,6 +13,8 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
+  Switch,
   useDisclosure,
 } from '@chakra-ui/react';
 import { BsPlus } from 'react-icons/bs';
@@ -29,6 +31,7 @@ export default function RegisterServerButton({
   const modalAction = useDisclosure();
   const [name, setName] = useState<string>('');
   const [url, setUrl] = useState<string>('');
+  const [simpleCheck, setSimpleCheck] = useState<boolean>(true);
 
   function createServer() {
     onCreate({ name, url, status: 'ativo', simpleCheck: true });
@@ -56,30 +59,42 @@ export default function RegisterServerButton({
           <ModalHeader textAlign="center">Novo servidor</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl mb={8}>
-              <FormLabel>Nome</FormLabel>
-              <InputGroup>
-                <InputLeftElement>
-                  <BiServer size={20} />
-                </InputLeftElement>
-                <Input
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Digite um nome para o servidor"
-                />
-              </InputGroup>
-            </FormControl>
-            <FormControl>
-              <FormLabel>URL</FormLabel>
-              <InputGroup>
-                <InputLeftElement>
-                  <BiLink size={20} />
-                </InputLeftElement>
-                <Input
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="Digite a url"
-                />
-              </InputGroup>
-            </FormControl>
+            <Stack spacing={8}>
+              <FormControl>
+                <FormLabel>Nome</FormLabel>
+                <InputGroup>
+                  <InputLeftElement>
+                    <BiServer size={20} />
+                  </InputLeftElement>
+                  <Input
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Digite um nome para o servidor"
+                  />
+                </InputGroup>
+              </FormControl>
+              <FormControl>
+                <FormLabel>URL</FormLabel>
+                <InputGroup>
+                  <InputLeftElement>
+                    <BiLink size={20} />
+                  </InputLeftElement>
+                  <Input
+                    onChange={(e) => setUrl(e.target.value)}
+                    placeholder="Digite a url"
+                  />
+                </InputGroup>
+              </FormControl>
+              <FormControl>
+                <Stack direction="row" align="center">
+                  <Switch
+                    onChange={(e) => setSimpleCheck(e.target.checked)}
+                    defaultChecked
+                  />
+                  <FormLabel>Checkagem simples?</FormLabel>
+                </Stack>
+              </FormControl>
+              {simpleCheck === true ? null : null}
+            </Stack>
           </ModalBody>
           <ModalFooter>
             <Button onClick={() => createServer()} mr={3} colorScheme="blue">
