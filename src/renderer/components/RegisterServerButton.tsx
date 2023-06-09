@@ -32,6 +32,8 @@ export default function RegisterServerButton({
 
   function createServer() {
     onCreate({ name, url, status: 'ativo', simpleCheck: true });
+    setName('');
+    setUrl('');
     modalAction.onClose();
   }
 

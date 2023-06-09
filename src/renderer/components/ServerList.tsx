@@ -15,6 +15,9 @@ import {
   AlertDialogOverlay,
   AlertDialogHeader,
   AlertDialogBody,
+  AlertDialogFooter,
+  Button,
+  AlertDialogContent,
 } from '@chakra-ui/react';
 import { IServer } from 'renderer/types/Server';
 import {
@@ -24,7 +27,7 @@ import {
   BsGearFill,
 } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 interface IServerList {
   data: IServer[];
@@ -32,73 +35,105 @@ interface IServerList {
 }
 
 export default function ServerList({ data, onDeleteServer }: IServerList) {
-  const deleServerDialog = useDisclosure();
+  const deleteServerAlert = useDisclosure();
   const cancelRef = useRef(null);
-  function handleDeleteServer(index: number, name: string) {
-    return (
-      <AlertDialog
-        onClose={deleServerDialog.onClose}
-        isOpen={deleServerDialog.isOpen}
-        leastDestructiveRef={cancelRef}
-        motionPreset="slideInRight"
-      >
-        <AlertDialogOverlay>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Deletar Servidor
-          </AlertDialogHeader>
-          <AlertDialogBody>Tem certeza que quer deletar esse</AlertDialogBody>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    );
+  const [selectedServer, setSelectedServer] = useState<{
+    index: number;
+    name: string;
+  }>();
+
+  function handlePretendDeleteServer(index: number, name: string) {
+    setSelectedServer({ index, name });
+    deleteServerAlert.onOpen();
+  }
+
+  function handleDeleteServer(index: number) {
+    onDeleteServer(index);
+    deleteServerAlert.onClose();
   }
 
   return (
-    <TableContainer maxH="50vh" overflowY="auto">
-      <Table>
-        <Thead bg="none" position="sticky" top={0} zIndex="docked">
-          <Tr fontWeight="bold">
-            <Td>Nome do servidor</Td>
-            <Td>Status</Td>
-            <Td>Ação</Td>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data.map((e, index) => (
-            <Tr>
-              <Td>{e.name}</Td>
-              <Td>{e.status}</Td>
-              <Td>
-                <Menu>
-                  {({ isOpen }) => (
-                    <>
-                      <MenuButton
-                        as={IconButton}
-                        icon={
-                          isOpen ? (
-                            <BsChevronUp size={18} />
-                          ) : (
-                            <BsChevronDown size={18} />
-                          )
-                        }
-                      />
-                      <MenuList>
-                        <MenuItem icon={<BsGearFill />}>Reparar</MenuItem>
-                        <MenuItem icon={<FiEdit />}>Editar</MenuItem>
-                        <MenuItem
-                          onClick={handleDeleteServer(index, e.name)}
-                          icon={<BsTrashFill />}
-                        >
-                          Excluir
-                        </MenuItem>
-                      </MenuList>
-                    </>
-                  )}
-                </Menu>
-              </Td>
+    <>
+      <TableContainer maxH="50vh" overflowY="auto">
+        <Table>
+          <Thead bg="none" position="sticky" top={0} zIndex="docked">
+            <Tr fontWeight="bold">
+              <Td>Nome do servidor</Td>
+              <Td>Status</Td>
+              <Td>Ação</Td>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+          </Thead>
+          <Tbody>
+            {data.map((e, index) => (
+              <Tr>
+                <Td>{e.name}</Td>
+                <Td>{e.status}</Td>
+                <Td>
+                  <Menu>
+                    {({ isOpen }) => (
+                      <>
+                        <MenuButton
+                          as={IconButton}
+                          icon={
+                            isOpen ? (
+                              <BsChevronUp size={18} />
+                            ) : (
+                              <BsChevronDown size={18} />
+                            )
+                          }
+                        />
+                        <MenuList>
+                          <MenuItem icon={<BsGearFill />}>Reparar</MenuItem>
+                          <MenuItem icon={<FiEdit />}>Editar</MenuItem>
+                          <MenuItem
+                            onClick={() =>
+                              handlePretendDeleteServer(index, e.name)
+                            }
+                            icon={<BsTrashFill />}
+                          >
+                            Excluir
+                          </MenuItem>
+                        </MenuList>
+                      </>
+                    )}
+                  </Menu>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      {selectedServer != null ? (
+        <AlertDialog
+          onClose={deleteServerAlert.onClose}
+          isOpen={deleteServerAlert.isOpen}
+          leastDestructiveRef={cancelRef}
+          motionPreset="slideInRight"
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Deletar Servidor
+              </AlertDialogHeader>
+              <AlertDialogBody>
+                Tem certeza que deseja deletar o servidor {selectedServer.name}?
+              </AlertDialogBody>
+              <AlertDialogFooter>
+                <Button ref={cancelRef} onClick={deleteServerAlert.onClose}>
+                  Cancelar
+                </Button>
+                <Button
+                  ml={3}
+                  colorScheme="red"
+                  onClick={() => handleDeleteServer(selectedServer.index)}
+                >
+                  Deletar
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
+      ) : null}
+    </>
   );
 }
