@@ -53,6 +53,8 @@ export default function RegisterServerButton({
     setName('');
     setUrl('');
     setSimpleCheck(true);
+    setMethod('');
+    setRoute('');
   }
   return (
     <>
@@ -66,7 +68,7 @@ export default function RegisterServerButton({
       <Modal
         isCentered
         isOpen={modalAction.isOpen}
-        onClose={modalAction.onClose}
+        onClose={() => cancelRegister()}
       >
         <ModalOverlay backdropFilter="blur(5px)" />
         <ModalContent>
