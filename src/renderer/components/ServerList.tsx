@@ -110,7 +110,7 @@ export default function ServerList({ data, onDeleteServer }: IServerList) {
           leastDestructiveRef={cancelRef}
           motionPreset="slideInRight"
         >
-          <AlertDialogOverlay>
+          <AlertDialogOverlay backdropFilter="blur(5px)">
             <AlertDialogContent>
               <AlertDialogHeader fontSize="lg" fontWeight="bold">
                 Deletar Servidor
