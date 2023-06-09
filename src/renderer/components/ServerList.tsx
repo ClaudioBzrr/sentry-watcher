@@ -10,6 +10,11 @@ import {
   Td,
   Thead,
   Tr,
+  useDisclosure,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogHeader,
+  AlertDialogBody,
 } from '@chakra-ui/react';
 import { IServer } from 'renderer/types/Server';
 import {
@@ -19,6 +24,7 @@ import {
   BsGearFill,
 } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
+import { useRef } from 'react';
 
 interface IServerList {
   data: IServer[];
@@ -26,6 +32,26 @@ interface IServerList {
 }
 
 export default function ServerList({ data, onDeleteServer }: IServerList) {
+  const deleServerDialog = useDisclosure();
+  const cancelRef = useRef(null);
+  function handleDeleteServer(index: number, name: string) {
+    return (
+      <AlertDialog
+        onClose={deleServerDialog.onClose}
+        isOpen={deleServerDialog.isOpen}
+        leastDestructiveRef={cancelRef}
+        motionPreset="slideInRight"
+      >
+        <AlertDialogOverlay>
+          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+            Deletar Servidor
+          </AlertDialogHeader>
+          <AlertDialogBody>Tem certeza que quer deletar esse</AlertDialogBody>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    );
+  }
+
   return (
     <TableContainer maxH="50vh" overflowY="auto">
       <Table>
@@ -59,7 +85,7 @@ export default function ServerList({ data, onDeleteServer }: IServerList) {
                         <MenuItem icon={<BsGearFill />}>Reparar</MenuItem>
                         <MenuItem icon={<FiEdit />}>Editar</MenuItem>
                         <MenuItem
-                          onClick={() => onDeleteServer(index)}
+                          onClick={handleDeleteServer(index, e.name)}
                           icon={<BsTrashFill />}
                         >
                           Excluir
