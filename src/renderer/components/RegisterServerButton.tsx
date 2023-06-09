@@ -13,6 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Stack,
   Switch,
   useDisclosure,
@@ -32,14 +33,27 @@ export default function RegisterServerButton({
   const [name, setName] = useState<string>('');
   const [url, setUrl] = useState<string>('');
   const [simpleCheck, setSimpleCheck] = useState<boolean>(true);
+  const [route, setRoute] = useState<string>('');
+  const [method, setMethod] = useState<string>('');
 
   function createServer() {
-    onCreate({ name, url, status: 'ativo', simpleCheck: true });
+    if (simpleCheck === true) {
+      onCreate({ name, url, status: 'ativo', simpleCheck });
+    } else {
+      onCreate({ name, url, status: 'ativo', simpleCheck, route, method });
+    }
     setName('');
     setUrl('');
+    setSimpleCheck(true);
     modalAction.onClose();
   }
 
+  function cancelRegister() {
+    modalAction.onClose();
+    setName('');
+    setUrl('');
+    setSimpleCheck(true);
+  }
   return (
     <>
       <Button
@@ -88,19 +102,41 @@ export default function RegisterServerButton({
                 <Stack direction="row" align="center">
                   <Switch
                     onChange={(e) => setSimpleCheck(e.target.checked)}
-                    defaultChecked
+                    defaultChecked={simpleCheck}
                   />
-                  <FormLabel>Checkagem simples?</FormLabel>
+                  <FormLabel>Verificação simples?</FormLabel>
                 </Stack>
               </FormControl>
-              {simpleCheck === true ? null : null}
+              {simpleCheck === true ? null : (
+                <>
+                  <FormControl>
+                    <FormLabel>Rota</FormLabel>
+                    <InputGroup>
+                      <InputLeftElement fontWeight="bold" fontSize="xl">
+                        /
+                      </InputLeftElement>
+                      <Input placeholder="Digite a rota" />
+                    </InputGroup>
+                  </FormControl>
+                  <Select
+                    fontWeight="semibold"
+                    placeholder="Selecione um método"
+                  >
+                    <option value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                    <option value="PATH">PATH</option>
+                  </Select>
+                </>
+              )}
             </Stack>
           </ModalBody>
           <ModalFooter>
             <Button onClick={() => createServer()} mr={3} colorScheme="blue">
               Salvar
             </Button>
-            <Button onClick={modalAction.onClose} colorScheme="red">
+            <Button onClick={() => cancelRegister()} colorScheme="red">
               Cancelar
             </Button>
           </ModalFooter>
