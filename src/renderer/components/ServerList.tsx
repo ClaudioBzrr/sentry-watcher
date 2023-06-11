@@ -116,7 +116,7 @@ export default function ServerList({ data, onDeleteServer }: IServerList) {
                 Deletar Servidor
               </AlertDialogHeader>
               <AlertDialogBody>
-                Tem certeza que deseja deletar o servidor {selectedServer.name}?
+                Deseja realmente deletar o servidor {selectedServer.name}?
               </AlertDialogBody>
               <AlertDialogFooter>
                 <Button ref={cancelRef} onClick={deleteServerAlert.onClose}>
