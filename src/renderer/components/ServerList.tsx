@@ -37,13 +37,12 @@ interface IServerList {
 export default function ServerList({ data, onDeleteServer }: IServerList) {
   const deleteServerAlert = useDisclosure();
   const cancelRef = useRef(null);
-  const [selectedServer, setSelectedServer] = useState<{
-    index: number;
-    name: string;
-  }>();
+  const [selectedServer, setSelectedServer] = useState<IServer>();
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-  function handlePretendDeleteServer(index: number, name: string) {
-    setSelectedServer({ index, name });
+  function handlePretendDeleteServer(index: number, server: IServer) {
+    setSelectedServer(server);
+    setSelectedIndex(index);
     deleteServerAlert.onOpen();
   }
 
@@ -86,9 +85,7 @@ export default function ServerList({ data, onDeleteServer }: IServerList) {
                           <MenuItem icon={<BsGearFill />}>Reparar</MenuItem>
                           <MenuItem icon={<FiEdit />}>Editar</MenuItem>
                           <MenuItem
-                            onClick={() =>
-                              handlePretendDeleteServer(index, e.name)
-                            }
+                            onClick={() => handlePretendDeleteServer(index, e)}
                             icon={<BsTrashFill />}
                           >
                             Excluir
@@ -125,7 +122,7 @@ export default function ServerList({ data, onDeleteServer }: IServerList) {
                 <Button
                   ml={3}
                   colorScheme="red"
-                  onClick={() => handleDeleteServer(selectedServer.index)}
+                  onClick={() => handleDeleteServer(selectedIndex)}
                 >
                   Deletar
                 </Button>
