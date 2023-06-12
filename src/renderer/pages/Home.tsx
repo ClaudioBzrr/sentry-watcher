@@ -4,6 +4,7 @@ import RegisterServerButton from 'renderer/components/RegisterServerButton';
 import SearchBar from 'renderer/components/SearchBar';
 import ServerList from 'renderer/components/ServerList';
 import { IServer } from 'renderer/types/Server';
+import CheckServer from 'renderer/utils/CheckServer';
 
 export default function Home() {
   const [searchedText, setSearchedText] = useState<string>('');
@@ -61,6 +62,12 @@ export default function Home() {
   function handleDeleteServer(index: number) {
     updateServerValue(servers.filter((e, i) => index !== i));
   }
+
+  CheckServer({
+    secs: 10,
+    data: servers,
+    onUpdateServerList: (e) => setServers(e),
+  });
 
   const filteredServers = servers.filter((e) => {
     const searchedTextMatch =
