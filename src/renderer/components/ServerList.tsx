@@ -65,7 +65,7 @@ export default function ServerList({ data, onDeleteServer }: IServerList) {
           </Thead>
           <Tbody>
             {data.map((e, index) => (
-              <Tr>
+              <Tr key={String(index * 1)}>
                 <Td>{e.name}</Td>
                 <Td>{e.status}</Td>
                 <Td>
