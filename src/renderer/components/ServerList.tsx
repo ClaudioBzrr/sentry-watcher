@@ -24,7 +24,7 @@ import {
   BsChevronDown,
   BsChevronUp,
   BsTrashFill,
-  BsGearFill,
+  // BsGearFill,
 } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { useRef, useState } from 'react';
@@ -82,7 +82,7 @@ export default function ServerList({ data, onDeleteServer }: IServerList) {
                           }
                         />
                         <MenuList>
-                          <MenuItem icon={<BsGearFill />}>Reparar</MenuItem>
+                          {/* <MenuItem icon={<BsGearFill />}>Reparar</MenuItem> */}
                           <MenuItem icon={<FiEdit />}>Editar</MenuItem>
                           <MenuItem
                             onClick={() => handlePretendDeleteServer(index, e)}
